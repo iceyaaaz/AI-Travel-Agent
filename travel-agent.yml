@@ -1,1 +1,190 @@
+app:
+  description: 可查询各地实时天气，根据天气定制出行游玩行程的智能旅行助手
+  icon: 🤖
+  icon_background: '#FFEAD5'
+  icon_type: emoji
+  mode: agent-chat
+  name: 旅行规划助手
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/openai:1.0.1@b513bf843af4619450bdc15f32e995f90ebdeee143b1cccef442a867099b3397
+    version: null
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/openweather:0.0.8@33ff85a103c0627cff116c5a6b86d828c4cd06bc31776fb37f42000eab050749
+    version: null
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/wikipedia:0.0.8@f7df00299f261c4f0f462f5496de26f1c1013f50a737fa7d40436d1c44963aeb
+    version: null
+kind: app
+model_config:
+  agent_mode:
+    enabled: true
+    max_iteration: 10
+    prompt: null
+    strategy: function_call
+    tools:
+    - enabled: true
+      notAuthor: false
+      provider_id: langgenius/wikipedia/wikipedia
+      provider_name: langgenius/wikipedia/wikipedia
+      provider_type: builtin
+      tool_label: 维基百科搜索
+      tool_name: wikipedia_search
+      tool_parameters:
+        language: null
+        query: null
+      type: builtin
+    - enabled: true
+      notAuthor: false
+      provider_id: langgenius/openweather/openweather
+      provider_name: langgenius/openweather/openweather
+      provider_type: builtin
+      tool_label: 天气查询
+      tool_name: weather
+      tool_parameters:
+        city: null
+        lang: zh_cn
+        units: metric
+      type: builtin
+  annotation_reply:
+    enabled: false
+  chat_prompt_config:
+    prompt:
+    - role: system
+      text: ''
+  completion_prompt_config:
+    conversation_histories_role:
+      assistant_prefix: ''
+      user_prefix: ''
+    prompt:
+      text: ''
+  dataset_configs:
+    datasets:
+      datasets: []
+    retrieval_model: multiple
+    top_k: 4
+  dataset_query_variable: ''
+  external_data_tools: []
+  file_upload:
+    allowed_file_extensions:
+    - .JPG
+    - .JPEG
+    - .PNG
+    - .GIF
+    - .WEBP
+    - .SVG
+    - .MP4
+    - .MOV
+    - .MPEG
+    - .WEBM
+    allowed_file_types: []
+    allowed_file_upload_methods:
+    - remote_url
+    - local_file
+    enabled: false
+    image:
+      detail: high
+      enabled: false
+      number_limits: 3
+      transfer_methods:
+      - remote_url
+      - local_file
+    number_limits: 3
+  model:
+    completion_params:
+      stop: []
+    mode: chat
+    name: gpt-5.6-luna
+    provider: langgenius/openai/openai
+  more_like_this:
+    enabled: false
+  opening_statement: ''
+  pre_prompt: '你是一名专业的旅游规划助手。
 
+
+    你的职责仅限于回答以下内容：
+
+
+    1. 城市旅游规划
+
+    2. 景点推荐
+
+    3. 美食推荐
+
+    4. 天气查询
+
+    5. 出行路线
+
+
+    如果用户提出与旅游无关的问题，例如：
+
+
+    - AI
+
+    - 编程
+
+    - 数学
+
+    - 医学
+
+    - 法律
+
+    - 写代码
+
+    - 写论文
+
+
+    必须拒绝回答，并统一回复：
+
+
+    "抱歉，我是一名旅游规划助手，目前只能回答旅游相关问题。"
+
+
+    禁止回答任何旅游之外的问题。
+
+    你是国内专业旅行规划助手，所有工作必须遵循以下硬性规则：
+
+    1. 用户需要城市出行规划时，优先调用搜索工具查询目标城市次日完整天气：包含气温、阴晴、风力、是否降雨；
+
+    2. 根据天气状况给出穿搭建议，雨天优先推荐室内景点，晴天主推户外自然风光；
+
+    3. 天气信息必须来自实时联网检索，绝对禁止凭空编造气温、雨雪状态；
+
+    4. 如果多次调用工具都无法获取天气数据：如实告知用户暂时无法查询天气，然后输出该城市通用经典一日游玩路线，不得终止回答；
+
+    5. 行程按照上午、中午、下午、晚间分段排版，条理清晰。
+
+
+    用户提问内容：{{input}}
+
+    '
+  prompt_type: simple
+  retriever_resource:
+    enabled: true
+  sensitive_word_avoidance:
+    config: {}
+    enabled: false
+    type: ''
+  speech_to_text:
+    enabled: false
+  suggested_questions: []
+  suggested_questions_after_answer:
+    enabled: false
+  text_to_speech:
+    enabled: false
+    language: ''
+    voice: ''
+  user_input_form:
+  - text-input:
+      default: ''
+      label: input
+      required: true
+      variable: input
+version: 0.6.0
