@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#173d36">
+  <meta name="description" content="Dify 旅行助手项目展示：从单 Agent 到四分支 Chatflow，三城知识库、天气预报接口与多轮行程参数保存。查看实现、验证证据和已知边界。">
+  <title>AI Travel Agent · Dify 旅行助手项目</title>
+  <link rel="icon" href="assets/compass.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/site.css">
+  <script src="assets/site.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">跳到正文</a>
+  <header class="site-header">
+    <a class="brand" href="#" aria-label="AI Travel Agent 首页"><img src="assets/compass.svg" alt="" width="32" height="32"><span>AI Travel Agent<small>DIFY PROJECT</small></span></a>
+    <nav aria-label="页面导航"><a href="#workflow">工作流</a><a href="#evidence">验证证据</a><a href="#boundaries">已知边界</a><a class="nav-source" href="https://github.com/iceyaaaz/AI-Travel-Agent" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a></nav>
+  </header>
+  <main id="main">
+    <section class="hero wrap" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="status-dot"></span>从单 Agent 到 Chatflow</p>
+        <h1 id="hero-title">让旅行需求<br>有迹可循。</h1>
+        <p class="hero-description">一个基于 Dify 的旅行助手项目。用明确的工作流连接知识检索、天气接口与会话状态，让每一次回答的依据和边界都看得见。</p>
+        <div class="hero-actions"><a class="button primary" href="#workflow">探索项目 <span aria-hidden="true">↘</span></a><a class="text-link" href="https://github.com/iceyaaaz/AI-Travel-Agent" target="_blank" rel="noopener noreferrer">查看源码 <span aria-hidden="true">↗</span></a></div>
+        <p class="hero-footnote">项目展示页 · 学习与实践记录 · 更新于 2026.10.31</p>
+      </div>
+      <div class="journey" aria-label="根据已有行程交互整理的参数保存示意，不是新的测试结果">
+        <div class="journey-heading"><span>一段对话，条件逐步齐全</span><span class="mono">TRIP / 01</span></div>
+        <div class="journey-line" aria-hidden="true"></div>
+        <div class="journey-step"><span class="step-point"></span><span class="step-label">提出需求</span><p>3 天，带父母出游</p><div class="tokens"><span>days: 3</span><span>带父母</span><span class="empty">城市待补充</span></div></div>
+        <div class="journey-step"><span class="step-point"></span><span class="step-label">补充目的地</span><p>“大连”</p><div class="tokens"><span>city: 大连</span><span>days: 3</span><span>保留同行人</span></div></div>
+        <div class="journey-step last"><span class="step-point"></span><span class="step-label">更新行程</span><p>“改成 2 天”</p><div class="tokens"><span>city: 大连</span><span class="changed">days: 2</span><span>保留偏好</span></div></div>
+        <div class="journey-caption"><span class="small-arrow" aria-hidden="true">↳</span> 根据已有局部交互整理的机制示意 <a href="#trip-proof">查看原始截图 ↗</a></div>
+        <svg class="journey-stamp" viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="54"/><circle cx="60" cy="60" r="44"/><path d="M60 30 69 54 93 60 69 69 60 93 51 69 27 60 51 54Z"/><circle cx="60" cy="60" r="7"/></svg>
+      </div>
+    </section>
+
+    <section class="project-facts wrap" aria-label="项目规模">
+      <div><strong>23<span>个</span></strong><p>公开模板节点</p></div>
+      <div><strong>3<span>城</span><i>/</i>9<span>份</span></strong><p>旅游知识资料</p></div>
+      <div><strong>57<span>条</span></strong><p>已定义的评测用例</p></div>
+      <div><strong>6<span>项</span></strong><p>通过的节点离线测试</p></div>
+    </section>
+    <div class="progress-note wrap"><span class="note-tag">当前进度</span><p>按 14 步计划完成第 1–11 步的主要功能搭建。<strong>完整评测尚未执行，本项目不提供通过率。</strong>公开模板更新与在线 Dify 发布分别管理。</p></div>
+
+    <section class="section wrap overview" id="overview" aria-labelledby="overview-title">
+      <div class="section-heading"><div><p class="eyebrow">01 / CAPABILITIES</p><h2 id="overview-title">把不同的问题<br>交给合适的流程。</h2></div><p class="section-intro">从依靠提示词约束单个 Agent，迭代为分类器驱动的 Chatflow。将参数、检索、工具与生成拆开，更容易看到具体发生了什么。</p></div>
+      <div class="capability-list">
+        <article><span class="capability-number">01</span><h3>三城知识问答</h3><p>沈阳、大连、天津，每城三份景点、美食、交通与住宿资料。检索后依据上下文回答，未收录事实说明缺失。</p><span class="capability-tag">RAG · 资料依据</span></article>
+        <article><span class="capability-number">02</span><h3>天气与未来预报</h3><p>通过当前天气取得动态坐标，再调用 OpenWeather 预报接口，并传入查询城市的当前当地日期。</p><span class="capability-tag">HTTP · 外部数据</span></article>
+        <article><span class="capability-number">03</span><h3>多轮行程参数</h3><p>保存城市、天数、偏好、出发日期与等待状态，支持先提需求、再补条件，以及后续修改天数。</p><span class="capability-tag">Python · 会话变量</span></article>
+        <article><span class="capability-number">04</span><h3>明确职责范围</h3><p>分类器区分天气、知识、行程与无关请求。无关请求进入固定回复，分类效果仍需完整评测。</p><span class="capability-tag">意图识别 · 条件分支</span></article>
+      </div>
+    </section>
+
+    <section class="workflow-section" id="workflow" aria-labelledby="workflow-title"><div class="wrap section">
+      <div class="section-heading"><div><p class="eyebrow">02 / UNDER THE HOOD</p><h2 id="workflow-title">沿着一条分支，<br>看看它如何工作。</h2></div><p class="section-intro">选择一个任务，查看实际编排方式、关键参数和当前限制。这里展示的是工作流机制，不会发送在线请求。</p></div>
+      <div class="workflow-tabs" role="tablist" aria-label="工作流分支">
+        <button id="tab-weather" role="tab" aria-controls="panel-weather" aria-selected="true" tabindex="0">天气查询 <span>↗</span></button>
+        <button id="tab-knowledge" role="tab" aria-controls="panel-knowledge" aria-selected="false" tabindex="-1">知识问答 <span>↗</span></button>
+        <button id="tab-trip" role="tab" aria-controls="panel-trip" aria-selected="false" tabindex="-1">行程规划 <span>↗</span></button>
+        <button id="tab-scope" role="tab" aria-controls="panel-scope" aria-selected="false" tabindex="-1">职责边界 <span>↗</span></button>
+      </div>
+      <div class="workflow-panels">
+        <div id="panel-weather" class="workflow-panel" role="tabpanel" aria-labelledby="tab-weather" tabindex="0">
+          <div class="panel-main"><p class="panel-kicker">输入示例</p><h3>“杭州明天天气怎么样？”</h3><ol class="pipeline"><li>提取城市与日期</li><li>检查信息是否齐全</li><li>当前天气获取坐标</li><li>计算当地日期</li><li>HTTP 获取预报</li><li>LLM 整理与回复</li></ol></div>
+          <aside class="panel-detail"><span class="mono">city / date / lat / lon</span><h4>日期需要有基准</h4><p>以城市时区计算当地今天，模型根据目标日期选取预报数据。超出返回范围时应说明缺失。</p><p class="panel-limit">保留限制：日期仍由 LLM 筛选；“明天天气怎么样 → 杭州”的多轮补参尚未实现。</p></aside>
+        </div>
+        <div id="panel-knowledge" class="workflow-panel" role="tabpanel" aria-labelledby="tab-knowledge" tabindex="0" hidden>
+          <div class="panel-main"><p class="panel-kicker">输入示例</p><h3>“海麻线包子一定是素食吗？”</h3><ol class="pipeline"><li>识别知识问答</li><li>检索三城资料</li><li>核对事实对象</li><li>上下文传入 LLM</li><li>依据片段回答</li><li>展示资料引用</li></ol></div>
+          <aside class="panel-detail"><span class="mono">Top K 4 / 加权检索</span><h4>片段要真正支持答案</h4><p>资料提到做法中含肉丁。名称里有“海菜”，不能据此认定成品一定是素食。</p><p class="panel-limit">保留限制：当前只按检索资料回答，库外推荐与部分用例期望存在尚未解决的一致性问题。</p></aside>
+        </div>
+        <div id="panel-trip" class="workflow-panel" role="tabpanel" aria-labelledby="tab-trip" tabindex="0" hidden>
+          <div class="panel-main"><p class="panel-kicker">输入示例</p><h3>“3 天，带父母” → “大连”</h3><ol class="pipeline"><li>提取本轮参数</li><li>合并新旧参数</li><li>赋值会话变量</li><li>判断城市与天数</li><li>追问或清除等待标记</li><li>生成一般行程</li></ol></div>
+          <aside class="panel-detail"><span class="mono">pending_intent = trip</span><h4>短回复也能接续行程</h4><p>非空新参数覆盖旧值，有效天数限定为正整数。已有交互展示了修改天数后保留目的地与偏好。</p><p class="panel-limit">保留限制：偏好是字符串追加；新任务状态隔离未实现。行程没有接入天气或知识检索。</p></aside>
+        </div>
+        <div id="panel-scope" class="workflow-panel" role="tabpanel" aria-labelledby="tab-scope" tabindex="0" hidden>
+          <div class="panel-main"><p class="panel-kicker">输入示例</p><h3>“帮我写一个 Python 排序函数”</h3><ol class="pipeline short"><li>问题分类器</li><li>识别非旅游请求</li><li>固定回复并引导回旅游主题</li></ol></div>
+          <aside class="panel-detail"><span class="mono">intent / condition / answer</span><h4>先分类，再选择分支</h4><p>提示词包含职责边界与角色切换约束。旅游请求缺少目的地时，应继续澄清，不应简单归为无关。</p><p class="panel-limit">保留限制：固定回复之前仍有模型分类；超范围与诱导题尚不能预判全部通过。</p></aside>
+        </div>
+      </div>
+      <p class="workflow-caption">当前公开模板：23 个节点 · Python 节点借助 AI 编写 · <a href="https://github.com/iceyaaaz/AI-Travel-Agent/blob/main/v3-chatflow.yml" target="_blank" rel="noopener noreferrer">查看完整 YAML ↗</a></p>
+    </div></section>
+
+    <section class="section wrap knowledge" aria-labelledby="knowledge-title">
+      <div class="section-heading"><div><p class="eyebrow">03 / KNOWLEDGE BASE</p><h2 id="knowledge-title">九份资料，<br>从具体城市开始。</h2></div><p class="section-intro">资料保留来源与适用范围，覆盖稳定事实与一般出行建议。实时票价、预约余量和酒店库存不在知识库范围内。</p></div>
+      <div class="city-grid">
+        <article class="city"><div class="city-top"><span class="mono">01 / SHENYANG</span><span class="city-coordinate">清代建筑与近现代历史</span></div><h3>沈阳</h3><p>故宫、清昭陵与人物故居，结合本地美食和交通住宿建议。</p><ul><li>景点介绍</li><li>特色美食</li><li>交通与住宿</li></ul><a href="https://github.com/iceyaaaz/AI-Travel-Agent/tree/main/knowledge" target="_blank" rel="noopener noreferrer">阅读三份资料 <span>↗</span></a></article>
+        <article class="city"><div class="city-top"><span class="mono">02 / DALIAN</span><span class="city-coordinate">海岸观光与地方风味</span></div><h3>大连</h3><p>海洋公园、海岸区域与海味面食，关注忌口核实和出行条件。</p><ul><li>景点介绍</li><li>特色美食</li><li>交通与住宿</li></ul><a href="https://github.com/iceyaaaz/AI-Travel-Agent/tree/main/knowledge" target="_blank" rel="noopener noreferrer">阅读三份资料 <span>↗</span></a></article>
+        <article class="city"><div class="city-top"><span class="mono">03 / TIANJIN</span><span class="city-coordinate">历史街区与津味早点</span></div><h3>天津</h3><p>五大道、古文化街与地方小吃，区分资料事实和编者建议。</p><ul><li>景点介绍</li><li>特色美食</li><li>交通与住宿</li></ul><a href="https://github.com/iceyaaaz/AI-Travel-Agent/tree/main/knowledge" target="_blank" rel="noopener noreferrer">阅读三份资料 <span>↗</span></a></article>
+      </div>
+    </section>
+
+    <section class="evidence-section" id="evidence" aria-labelledby="evidence-title"><div class="wrap section">
+      <div class="section-heading"><div><p class="eyebrow">04 / EVIDENCE</p><h2 id="evidence-title">把观察写清楚，<br>也把分母说清楚。</h2></div><p class="section-intro">已有材料分为召回观察、节点离线测试与局部在线交互。它们回答不同问题，不能合并成一个应用通过率。</p></div>
+      <div class="evidence-grid"><div class="recall"><div class="subheading"><h3>三组 RAG 召回实验</h3><span>历史小样本</span></div><p>同源九份文档，每组 15 题，共 45 次观察。下表只统计其中 10 道有答案题的答案片段命中。</p><div class="table-scroll"><table><caption class="sr-only">三组检索配置的有答案题召回结果</caption><thead><tr><th scope="col">配置</th><th scope="col">分块 / 重叠</th><th scope="col">检索与 Top K</th><th scope="col">命中</th></tr></thead><tbody><tr><th scope="row">A</th><td>500 / 50</td><td>向量 · K3</td><td><strong>6 / 10</strong></td></tr><tr><th scope="row">B</th><td>1000 / 100</td><td>向量 · K3</td><td><strong>6 / 10</strong></td></tr><tr><th scope="row">C</th><td>1000 / 100</td><td>混合 + 重排 · K5</td><td><strong>8 / 10</strong></td></tr></tbody></table></div><p class="evidence-caveat">C 同时改变检索、重排与 K。新增答案位于第 4、5 位，不能将差异单独归因于重排。当前 Chatflow 为加权 K4、关闭模型重排，不能套用 C 的结果。</p><a class="text-link" href="https://github.com/iceyaaaz/AI-Travel-Agent/blob/main/docs/EVALUATION.md" target="_blank" rel="noopener noreferrer">阅读完整评测说明 ↗</a></div>
+      <div class="verification"><div class="test-number">6<span>项离线测试通过</span></div><p>覆盖补城市、补天数、追加偏好返回、更新天数与日期、非法天数保留旧值，以及坐标与当地日期格式。</p><hr><h3>57 条用例，结果仍待形成</h3><p>42 条基础用例 + 15 条 RAG 用例，包含多轮追问、超范围和资料缺失等情况。完整线上评测暂停，尚未形成应用通过率。</p><a class="text-link" href="https://github.com/iceyaaaz/AI-Travel-Agent/blob/main/evaluation/cases.csv" target="_blank" rel="noopener noreferrer">查看用例与判定标准 ↗</a></div></div>
+      <figure class="proof" id="trip-proof"><div class="proof-heading"><div><span class="eyebrow">LOCAL INTERACTION RECORD</span><h3>修改天数后，保留目的地与偏好</h3></div><a href="assets/trip-update-success.png" target="_blank" rel="noopener noreferrer">查看大图 ↗</a></div><a href="assets/trip-update-success.png" target="_blank" rel="noopener noreferrer" aria-label="打开行程修改成功的历史交互截图"><img src="assets/trip-update-success.png" width="1920" height="921" loading="lazy" alt="Dify历史预览截图：用户输入改成2天，回复保留大连、带父母、少走路，并说明是未接入天气的一般行程建议。"></a><figcaption>原有局部交互截图，只证明展示的场景；不是57题完整回归，也不代表最新公开代码已同步在线应用。</figcaption></figure>
+    </div></section>
+
+    <section class="section wrap boundaries" id="boundaries" aria-labelledby="boundaries-title"><div class="section-heading"><div><p class="eyebrow">05 / KNOWN BOUNDARIES</p><h2 id="boundaries-title">完成到哪里，<br>就如实展示到哪里。</h2></div><p class="section-intro">功能搭建、公开模板、本地验证与在线部署是不同状态。下面这些问题仍然保留。</p></div>
+      <div class="limits-list">
+        <details open><summary><span class="limit-index">01</span><span>天气多轮补参尚未实现</span><span class="limit-state">暂缓修复</span><span class="expand-icon" aria-hidden="true">+</span></summary><p>“明天天气怎么样 → 杭州”曾误入行程追问。行程等待状态已实现，天气分支还没有同等接续机制。D001 已标注已知限制。</p></details>
+        <details><summary><span class="limit-index">02</span><span>行程尚未联动知识与天气</span><span class="limit-state">一般建议</span><span class="expand-icon" aria-hidden="true">+</span></summary><p>当前行程生成基于已收集参数，未实际检索知识库或查询天气。D005、D006 天气项按当前范围注明不判定；这次范围说明不代表用例已通过。</p></details>
+        <details><summary><span class="limit-index">03</span><span>日期选择与新任务状态需要完善</span><span class="limit-state">待验证</span><span class="expand-icon" aria-hidden="true">+</span></summary><p>目标日期仍由模型从预报中选择，存在选错日期或时段的风险。偏好以字符串追加，否定偏好、新任务重置和状态隔离未实现。</p></details>
+        <details><summary><span class="limit-index">04</span><span>完整评测与在线版本尚未闭环</span><span class="limit-state">评测暂停</span><span class="expand-icon" aria-hidden="true">+</span></summary><p>原57题尚未完整执行，部分库外城市推荐与严格知识规则的适用性尚未验证。公开模板修正已入库，在线 Dify 是否同步仍需单独核对。</p></details>
+      </div>
+      <a class="text-link limits-more" href="https://github.com/iceyaaaz/AI-Travel-Agent/blob/main/docs/KNOWN_ISSUES.md" target="_blank" rel="noopener noreferrer">查看完整已知问题 ↗</a>
+    </section>
+
+    <section class="start-section" id="start"><div class="wrap start-layout"><div><p class="eyebrow">06 / REPRODUCE</p><h2>从一份模板，<br>继续探索。</h2><p>下载公开 Chatflow，在自己的 Dify 环境配置模型、天气凭证和知识库，再按指南核对节点与冒烟场景。</p><div class="start-actions"><a class="button light" href="https://github.com/iceyaaaz/AI-Travel-Agent/blob/main/docs/SETUP.md" target="_blank" rel="noopener noreferrer">查看复现指南 <span>↗</span></a><a class="start-link" href="https://raw.githubusercontent.com/iceyaaaz/AI-Travel-Agent/main/v3-chatflow.yml" target="_blank" rel="noopener noreferrer">获取 Chatflow YAML ↗</a></div></div><ol class="start-steps"><li><span>01</span><div><h3>导入新应用</h3><p>保留旧版本，先检查导出格式与模型兼容性。</p></div></li><li><span>02</span><div><h3>绑定自己的资源</h3><p>配置模型与 OpenWeather，重新绑定三城知识库。</p></div></li><li><span>03</span><div><h3>预览并核对证据</h3><p>查看真实回答、分支和工具数据，记录成功与失败。</p></div></li></ol></div></section>
+  </main>
+  <footer class="wrap footer"><div><a class="footer-brand" href="#">AI Travel Agent</a><p>基于 Dify 的旅行助手学习项目 · iceyaaaz</p></div><div class="footer-links"><a href="https://github.com/iceyaaaz/AI-Travel-Agent" target="_blank" rel="noopener noreferrer">项目仓库 ↗</a><a href="https://github.com/iceyaaaz/AI-Travel-Agent/blob/main/docs/ITERATION_LOG.md" target="_blank" rel="noopener noreferrer">迭代日志 ↗</a><button id="copy-link" type="button">复制页面链接</button></div><p class="footer-note">本页展示项目实现和已有证据，不提供实时旅行问答。资料与截图对应其记录时点。</p></footer>
+  <div id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
