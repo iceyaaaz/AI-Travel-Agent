@@ -1,0 +1,9 @@
+.env
+.env.*
+!.env.example
+__pycache__/
+*.pyc
+raw-exports/
+raw-logs/
+test-results/
+*.xlsx
